@@ -1,8 +1,12 @@
-package br.com.jxr.composemovies.data.remote
+package br.com.jxr.composemovies.domain
 
+import br.com.jxr.composemovies.data.MoviesRepository
 import br.com.jxr.composemovies.di.dataModule
-import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.shouldBe
+import br.com.jxr.composemovies.domain.entities.Movie
+import io.kotest.matchers.collections.shouldHaveAtLeastSize
+import io.kotest.matchers.should
+import io.kotest.matchers.string.shouldNotBeBlank
+import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -17,13 +21,11 @@ import org.koin.core.context.startKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
 
-private const val default_results_size = 20
-
 @ExperimentalCoroutinesApi
-internal class TheMovieDbRemoteDataSourceTest : KoinTest {
+internal class MoviesRepositoryTest : KoinTest {
 
     private val testDispatcher = TestCoroutineDispatcher()
-    private val dataSource: TheMovieDbDataSource by inject()
+    private val repository: MoviesRepository by inject()
 
     @BeforeAll
     fun initialize() {
@@ -46,20 +48,16 @@ internal class TheMovieDbRemoteDataSourceTest : KoinTest {
     }
 
     @Test
-    fun `getPopular() should return a list of movies`() {
+    fun `Repository getPopularMovies should return a list of movies`() {
         runBlocking {
-            val movies = dataSource.getPopular()
-            movies.results shouldHaveSize default_results_size
-        }
-    }
-
-    @Test
-    fun `getPopular() with a page should return a list of movies from that page`() {
-        val page = 2
-        runBlocking {
-            val popularMoviesResponse = dataSource.getPopular(page)
-            popularMoviesResponse.page shouldBe page
-            popularMoviesResponse.results shouldHaveSize default_results_size
+            val actual = repository.getPopularMovies()
+            actual.shouldBeInstanceOf<List<Movie>>()
+            actual shouldHaveAtLeastSize 10
+            actual.first().should {
+                it.title.shouldNotBeBlank()
+                it.posterPath.shouldNotBeBlank()
+                it.backdropPath.shouldNotBeBlank()
+            }
         }
     }
 }

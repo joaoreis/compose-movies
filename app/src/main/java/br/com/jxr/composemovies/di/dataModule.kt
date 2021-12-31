@@ -2,6 +2,8 @@ package br.com.jxr.composemovies.di
 
 import br.com.jxr.composemovies.DefaultDispatcherProvider
 import br.com.jxr.composemovies.DispatcherProvider
+import br.com.jxr.composemovies.data.MoviesRepository
+import br.com.jxr.composemovies.data.PopularMoviesResponseMapper
 import br.com.jxr.composemovies.data.RemoteApiBuilder
 import br.com.jxr.composemovies.data.api.TheMovieDbApi
 import br.com.jxr.composemovies.data.remote.TheMovieDbDataSource
@@ -21,5 +23,16 @@ val dataModule = module {
             api = get(),
             dispatcher = get()
         )
+    }
+
+    factory {
+        MoviesRepository(
+            dataSource = get(),
+            mapper = get()
+        )
+    }
+
+    factory {
+        PopularMoviesResponseMapper()
     }
 }
