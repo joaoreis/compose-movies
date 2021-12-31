@@ -48,7 +48,7 @@ internal class TheMovieDbRemoteDataSourceTest : KoinTest {
 
     @Test
     fun `getPopular() should return a list of movies`() {
-        testDispatcher.runBlockingTest {
+        runBlocking {
             val movies = dataSource.getPopular()
             movies.results shouldHaveSize default_results_size
         }
