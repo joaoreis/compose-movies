@@ -1,5 +1,6 @@
 package br.com.jxr.composemovies.data
 
+import br.com.jxr.composemovies.data.api.TheMovieDbApi
 import br.com.jxr.composemovies.di.dataModule
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.ExperimentalCoroutinesApi

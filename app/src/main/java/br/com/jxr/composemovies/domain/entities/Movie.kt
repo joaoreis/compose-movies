@@ -1,4 +1,4 @@
-package br.com.jxr.composemovies.domain
+package br.com.jxr.composemovies.domain.entities
 
 data class Movie(
     val title: String,

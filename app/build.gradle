@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id "de.mannodermaus.android-junit5"
     id "kotlin-parcelize"
+    id "org.sonarqube" version "3.3"
 }
 
 android {
@@ -47,6 +48,14 @@ android {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "joaoreis_popular-movies"
+        property "sonar.organization", "joaoreisprivate"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }
 
